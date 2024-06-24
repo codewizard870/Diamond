@@ -33,8 +33,7 @@ describe("MainBe", function () {
             },
             [
                 {
-                    // adminId: "989898",
-                    adminAddress: "0x421F64C3f22AeE7BE98a019d7F1D5D23f346c10a",
+                    adminAddress: owner.address,
                     verified: false,
                 },
             ],
@@ -66,9 +65,9 @@ describe("MainBe", function () {
             [
                 {
                     submittedAt: 999,
-                    title: 'abc',
-                    url: "https:/www"
-                }
+                    title: "abc",
+                    url: "https:/www",
+                },
             ],
             false,
             1749005868,
@@ -79,9 +78,31 @@ describe("MainBe", function () {
             true,
         ]
         await mainBe.registerBE(beData)
-        const bes = await mainBe.getAllBes()
-        for (const be of bes) {
-            console.log(be)
+        {
+            const bes = await mainBe.getAllBes()
+            for (const be of bes) {
+                console.log(be)
+            }
         }
+
+        const res = await mainBe.getBEsByUser(owner.address)
+        console.log(res)
+
+        const beAddress = res.notExpired[0].beAddress;
+console.log(beAddress)
+        beData[0] = "updatedBEName"
+        await mainBe.updateBE(beAddress, beData)
+
+        await mainBe.changeBEStatus(beAddress, "Deregistered");
+
+        await mainBe.deleteBE(beAddress);
+        const temp = await mainBe.getBEsByUser(owner.address)
+        console.log(temp)
+        // {
+        //     const bes = await mainBe.getAllBes()
+        //     for (const be of bes) {
+        //         console.log(be)
+        //     }
+        // }
     })
 })

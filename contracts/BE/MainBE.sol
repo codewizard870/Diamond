@@ -179,7 +179,7 @@ contract MainTempBE {
     function updateBE(address beAddress, BEData memory _beData) public {
         (bool success, ) = logicBeAddress.delegatecall(
             abi.encodeWithSignature(
-                "updateBE(uint256,(string,address,string,string,bool,bool,(uint256,string,string,string,string,string[]),(address,bool)[],(address,bool)[],uint256,string,bool,(address,uint256,string[],bool)[],bool,(address,string[],bool)[],(uint256,string,string)[],bool,uint256,uint256,uint256,bool,uint256,bool))",
+                "updateBE(address,(string,address,string,string,bool,bool,(uint256,string,string,string,string,string[]),(address,bool)[],(address,bool)[],uint256,string,bool,(address,uint256,string[],bool)[],bool,(address,string[],bool)[],(uint256,string,string)[],bool,uint256,uint256,uint256,bool,uint256,bool))",
                 beAddress,
                 _beData
             )
@@ -210,7 +210,7 @@ contract MainTempBE {
     // Delete a BE by BE address ⛔️ This is a hard delete! (data will be erased)
     function deleteBE(address beAddress) public {
         (bool success, ) = logicBeAddress.delegatecall(
-            abi.encodeWithSignature("archiveBE(address)", beAddress)
+            abi.encodeWithSignature("deleteBE(address)", beAddress)
         );
         require(success, "delegatecall failed");
     }
